@@ -18,13 +18,13 @@ RUN apk add --update $BUILD_DEP $RUN_DEP \
     && tar zxf $PKGNAME_MOD2.tar.gz \
     && cd $PKGNAME_NGINX \
     && ./configure \
-    --add-module=../$PKGNAME_MOD1 \
-    --add-module=../$PKGNAME_MOD2 \
     --with-http_ssl_module \
     --with-http_v2_module \
     --with-ipv6 \
+    --add-module=../$PKGNAME_MOD1 \
+    --add-module=../$PKGNAME_MOD2 \
     && make install \
-    && rm -rf /var/tmp \
+    && rm -rf /var/tmp/* \
     && apk del $BUILD_DEP && rm -rf /var/cache/apk/*
 
 COPY nginx.conf /usr/local/nginx/conf/nginx.conf
