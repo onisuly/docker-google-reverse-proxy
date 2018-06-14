@@ -1,0 +1,34 @@
+FROM alpine:latest
+MAINTAINER onisuly <onisuly@gmail.com>
+
+ARG BUILD_DEP="build-base wget tar openssl-dev pcre-dev zlib-dev"
+ARG RUN_DEP="openssl pcre zlib"
+ARG PKGNAME_NGINX=nginx-1.12.2
+ARG PKGNAME_MOD1=ngx_http_google_filter_module-0.2.0
+ARG PKGNAME_MOD2=ngx_http_substitutions_filter_module-0.6.4
+
+RUN apk add --update $BUILD_DEP $RUN_DEP \ 
+    && mkdir -p /var/tmp \
+    && cd /var/tmp \
+    && wget https://nginx.org/download/$PKGNAME_NGINX.tar.gz -O $PKGNAME_NGINX.tar.gz \
+    && tar zxf $PKGNAME_NGINX.tar.gz \
+    && wget https://github.com/cuber/ngx_http_google_filter_module/archive/0.2.0.tar.gz -O $PKGNAME_MOD1.tar.gz \
+    && tar zxf $PKGNAME_MOD1.tar.gz \
+    && wget https://github.com/yaoweibin/ngx_http_substitutions_filter_module/archive/v0.6.4.tar.gz -O $PKGNAME_MOD2.tar.gz \
+    && tar zxf $PKGNAME_MOD2.tar.gz \
+    && cd $PKGNAME_NGINX \
+    && ./configure \
+    --add-module=../$PKGNAME_MOD1 \
+    --add-module=../$PKGNAME_MOD2 \
+    --with-http_ssl_module \
+    --with-http_v2_module \
+    --with-ipv6 \
+    && make install \
+    && rm -rf /var/tmp \
+    && apk del $BUILD_DEP && rm -rf /var/cache/apk/*
+
+COPY nginx.conf /usr/local/nginx/conf/nginx.conf
+
+EXPOSE 80
+
+CMD ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]
