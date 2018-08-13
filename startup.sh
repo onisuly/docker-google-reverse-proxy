@@ -9,6 +9,8 @@ if [ $SECURE = 'true' ]; then
     fi
     htpasswd -b -c /usr/local/nginx/.htpasswd ${USERNAME} ${PASSWORD}
     cp -f /usr/local/nginx/conf/nginx_auth.conf /usr/local/nginx/conf/nginx.conf
+else
+    cp -f /usr/local/nginx/conf/nginx_basic.conf /usr/local/nginx/conf/nginx.conf
 fi
 
 /usr/local/nginx/sbin/nginx
