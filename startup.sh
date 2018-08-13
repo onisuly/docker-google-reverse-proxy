@@ -3,11 +3,10 @@ set -e
 
 SECURE=${SECURE:=false}
 
-if [ -f /usr/local/nginx/.htpasswd ]; then
-    rm -f /usr/local/nginx/.htpasswd
-fi
-
 if [ $SECURE = 'true' ]; then
+    if [ -f /usr/local/nginx/.htpasswd ]; then
+        rm -f /usr/local/nginx/.htpasswd
+    fi
     htpasswd -b -c /usr/local/nginx/.htpasswd ${USERNAME} ${PASSWORD}
 fi
 
