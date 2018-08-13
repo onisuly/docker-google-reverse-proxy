@@ -29,6 +29,7 @@ RUN apk add --no-cache $RUN_DEP \
     && apk del build-dependencies
 
 COPY nginx.conf /usr/local/nginx/conf/nginx.conf
+COPY nginx_auth.conf /usr/local/nginx/conf/nginx_auth.conf
 COPY startup.sh /script/startup.sh
 RUN chmod +x /script/startup.sh
 
