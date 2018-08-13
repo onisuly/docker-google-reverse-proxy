@@ -11,7 +11,12 @@ if [ $SECURE = 'true' ]; then
 fi
 
 if [ -f /usr/local/nginx/.htpasswd ]; then
-    sed -i '/google_scholar on;/ a\            auth_basic "Restricted Content";\n            auth_basic_user_file /usr/local/nginx/.htpasswd;' usr/local/nginx/conf/nginx.conf
+    if grep -Fxq "auth_basic \"Restricted Content\";" usr/local/nginx/conf/nginx.conf
+    then
+        echo "already exist auth_basic"
+    else
+        sed -i '/google_scholar on;/ a\            auth_basic "Restricted Content";\n            auth_basic_user_file /usr/local/nginx/.htpasswd;' usr/local/nginx/conf/nginx.conf
+    fi
 fi
 
 /usr/local/nginx/sbin/nginx
