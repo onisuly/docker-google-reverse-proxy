@@ -14,6 +14,26 @@ docker run -d -p 8080:80 --name google-reverse-proxy --restart=always onisuly/go
 
 Suggest to use [LetsEncrypt companion container for nginx-proxy](https://hub.docker.com/r/jrcs/letsencrypt-nginx-proxy-companion/) to achieve this goal.
 
+## How to enable password protection
+
+```shell
+docker run -d -p 8080:80 --name google-reverse-proxy \
+-e SECURE=true \
+-e USERNAME=your_name \
+-e PASSWORD=your_password \
+--restart=always \
+onisuly/google-reverse-proxy
+```
+
+If you want to add multiple users, your can generate .htpasswd file [here](http://www.htaccesstools.com/htpasswd-generator/) and map it to your container.
+
+```shell
+docker run -d -p 8080:80 --name google-reverse-proxy \
+-v /your/path/to/.htpasswd:/usr/local/nginx/conf/.htpasswd \
+--restart=always \
+onisuly/google-reverse-proxy
+```
+
 ## Thanks:
 
 This docker image is based on [Nginx Module for Google Mirror](https://github.com/cuber/ngx_http_google_filter_module) and learns a lot from [google-reverse-proxy](https://github.com/jokester/Dockerfiles).
