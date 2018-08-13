@@ -2,7 +2,7 @@ FROM alpine:latest
 MAINTAINER onisuly <onisuly@gmail.com>
 
 ARG BUILD_DEP="build-base wget tar openssl-dev pcre-dev zlib-dev"
-ARG RUN_DEP="openssl pcre zlib"
+ARG RUN_DEP="openssl pcre zlib apache2-utils"
 ARG PKGNAME_NGINX=nginx-1.12.2
 ARG PKGNAME_MOD1=ngx_http_google_filter_module-0.2.0
 ARG PKGNAME_MOD2=ngx_http_substitutions_filter_module-0.6.4
@@ -25,10 +25,14 @@ RUN apk add --no-cache $RUN_DEP \
     --add-module=../$PKGNAME_MOD1 \
     --add-module=../$PKGNAME_MOD2 \
     && make install \
-    && rm -rf /var/tmp/* \
-    && apk del build-dependencies
+    && rm -rf /var/tmp/*
 
 COPY nginx.conf /usr/local/nginx/conf/nginx.conf
+COPY setup.sh setup.sh
+RUN chmod +x setup.sh
+RUN setup.sh
+
+RUN apk del build-dependencies
 
 EXPOSE 80
 
