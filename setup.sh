@@ -1,4 +1,6 @@
 #!/bin/sh
+set -e
+
 SECURE=${SECURE:=false}
 
 if [ -f /usr/local/nginx/.htpasswd ]; then
