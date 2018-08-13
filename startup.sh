@@ -14,3 +14,5 @@ fi
 if [ -f /usr/local/nginx/.htpasswd ]; then
     sed -i '/google_scholar on;/ a\            auth_basic "Restricted Content";\n            auth_basic_user_file /usr/local/nginx/.htpasswd;' usr/local/nginx/conf/nginx.conf
 fi
+
+/usr/local/nginx/sbin/nginx -g daemon off;

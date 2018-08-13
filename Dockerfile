@@ -25,15 +25,13 @@ RUN apk add --no-cache $RUN_DEP \
     --add-module=../$PKGNAME_MOD1 \
     --add-module=../$PKGNAME_MOD2 \
     && make install \
-    && rm -rf /var/tmp/*
+    && rm -rf /var/tmp/* \
+    && apk del build-dependencies
 
 COPY nginx.conf /usr/local/nginx/conf/nginx.conf
-COPY setup.sh /script/setup.sh
-RUN chmod +x /script/setup.sh
-RUN /script/setup.sh
-
-RUN apk del build-dependencies
+COPY setup.sh /script/startup.sh
+RUN chmod +x /script/startup.sh
 
 EXPOSE 80
 
-CMD ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]
+CMD ["/script/startup.sh"]
