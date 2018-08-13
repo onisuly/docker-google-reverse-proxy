@@ -28,9 +28,9 @@ RUN apk add --no-cache $RUN_DEP \
     && rm -rf /var/tmp/*
 
 COPY nginx.conf /usr/local/nginx/conf/nginx.conf
-COPY setup.sh setup.sh
-RUN chmod +x setup.sh
-RUN setup.sh
+COPY setup.sh /script/setup.sh
+RUN chmod +x /script/setup.sh
+RUN /script/setup.sh
 
 RUN apk del build-dependencies
 
