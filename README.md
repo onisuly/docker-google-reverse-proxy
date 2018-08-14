@@ -25,7 +25,7 @@ docker run -d -p 8080:80 --name google-reverse-proxy \
 onisuly/google-reverse-proxy
 ```
 
-If you want to add multiple users, your can generate .htpasswd file [here](http://www.htaccesstools.com/htpasswd-generator/) and map it to your container.
+If you want to add multiple users, your can generate .htpasswd file [here](http://www.htaccesstools.com/htpasswd-generator/) and mount it to your container.
 
 ```shell
 docker run -d -p 8080:80 --name google-reverse-proxy \
